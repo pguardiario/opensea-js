@@ -150,6 +150,12 @@ export class OpenSeaPort {
   public readonly api: OpenSeaAPI;
   // Extra gwei to add to the mean gas price when making transactions
   public gasPriceAddition = new BigNumber(3);
+
+
+  // Extra stuff
+  public maxFeePerGas = new BigNumber(3);
+  public maxPriorityFeePerGas = new BigNumber(3);
+
   // Multiply gas estimate by this factor when making transactions
   public gasIncreaseFactor = DEFAULT_GAS_INCREASE_FACTOR;
 
