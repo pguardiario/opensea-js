@@ -4181,6 +4181,13 @@ export class OpenSeaPort {
     let txHash;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const txnData: any = { from: accountAddress, value };
+    if(this.maxFeePerGas){
+      txnData.maxFeePerGas = this.maxFeePerGas
+    }
+    if(this.maxPriorityFeePerGas){
+      txnData.maxPriorityFeePerGas = this.maxPriorityFeePerGas
+    }
+
     const args: WyvernAtomicMatchParameters = [
       [
         buy.exchange,
