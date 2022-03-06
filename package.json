@@ -17,17 +17,7 @@
     "lib"
   ],
   "scripts": {
-    "abi-type-gen": "yarn run typechain --target=web3-v1 src/abi/*.json --out-dir=src/typechain/contracts",
-    "build": "yarn abi-type-gen && tsc",
-    "check-types": "tsc --noEmit --project tsconfig.json",
-    "coverage-report": "nyc report --reporter=text-lcov | coveralls",
-    "docs-build": "typedoc --out docs src/index.ts",
-    "eslint:check": "eslint . --max-warnings 0 --ext .js,.ts",
-    "lint:check": "concurrently \"yarn check-types\" \"yarn prettier:check\" \"yarn eslint:check\"",
-    "test": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' TS_NODE_TRANSPILE_ONLY=true nyc mocha -r ts-node/register src/__tests__/**/*.ts --timeout 15000",
-    "prettier:check": "prettier --check .",
-    "prettier:check:package.json": "yarn prettier-package-json --list-different",
-    "prettier:fix": "prettier --write ."
+
   },
   "types": "lib/index.d.ts",
   "dependencies": {
@@ -89,16 +79,5 @@
     "project-opensea",
     "sdk",
     "smart-contracts"
-  ],
-  "lint-staged": {
-    "package.json": [
-      "prettier-package-json --write"
-    ],
-    "**/*.{ts,tsx,js,jsx,html,md,mdx,yml,json}": [
-      "prettier --write"
-    ],
-    "**/*.{ts,tsx,js,jsx}": [
-      "eslint --cache --fix"
-    ]
-  }
+  ]
 }
