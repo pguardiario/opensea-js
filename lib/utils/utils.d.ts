@@ -1,7 +1,5 @@
 import BigNumber from "bignumber.js";
-import { CallData, TxData } from "ethereum-types";
-import Web3 from "web3";
-import { Contract } from "web3-eth-contract";
+import * as Web3 from "web3";
 import { WyvernProtocol } from "wyvern-js";
 import { AnnotatedFunctionABI, Schema } from "wyvern-schemas/dist/types";
 import { Asset, AssetEvent, ECSignature, OpenSeaAccount, OpenSeaAsset, OpenSeaAssetBundle, OpenSeaAssetContract, OpenSeaCollection, OpenSeaFungibleToken, OpenSeaUser, Order, OrderJSON, Transaction, UnhashedOrder, UnsignedOrder, Web3Callback, WyvernAsset, WyvernBundle, WyvernFTAsset, WyvernNFTAsset } from "../types";
@@ -72,7 +70,7 @@ export declare function makeBigNumber(arg: number | string | BigNumber): BigNumb
  * @param value value in ETH to send with data. Defaults to 0
  * @param onError callback when user denies transaction
  */
-export declare function sendRawTransaction(web3: Web3, { from, to, data, gasPrice, value, gas }: TxData, onError: (error: unknown) => void): Promise<string>;
+export declare function sendRawTransaction(web3: Web3, { from, to, data, gasPrice, value, gas }: Web3.TxData, onError: (error: unknown) => void): Promise<string>;
 /**
  * Call a method on a contract, sending arbitrary data and
  * handling Parity errors. Returns '0x' if error.
@@ -83,7 +81,7 @@ export declare function sendRawTransaction(web3: Web3, { from, to, data, gasPric
  * @param data data to send to contract
  * @param onError callback when user denies transaction
  */
-export declare function rawCall(web3: Web3, { from, to, data }: CallData, onError?: (error: unknown) => void): Promise<string>;
+export declare function rawCall(web3: Web3, { from, to, data }: Web3.CallData, onError?: (error: unknown) => void): Promise<string>;
 /**
  * Estimate Gas usage for a transaction
  * @param web3 Web3 instance
@@ -92,7 +90,7 @@ export declare function rawCall(web3: Web3, { from, to, data }: CallData, onErro
  * @param data data to send to contract
  * @param value value in ETH to send with data
  */
-export declare function estimateGas(web3: Web3, { from, to, data, value }: TxData): Promise<number>;
+export declare function estimateGas(web3: Web3, { from, to, data, value }: Web3.TxData): Promise<number>;
 /**
  * Get mean gas price for sending a txn, in wei
  * @param web3 Web3 instance
@@ -168,7 +166,7 @@ export declare function onDeprecated(msg: string): void;
  * Get special-case approval addresses for an erc721 contract
  * @param erc721Contract contract to check
  */
-export declare function getNonCompliantApprovalAddress(erc721Contract: Contract, tokenId: string, _accountAddress: string): Promise<string | undefined>;
+export declare function getNonCompliantApprovalAddress(erc721Contract: Web3.ContractInstance, tokenId: string, _accountAddress: string): Promise<string | undefined>;
 export declare const merkleValidatorByNetwork: {
     main: string;
     rinkeby: string;
@@ -185,8 +183,3 @@ export declare const wyvern2_2ConfigByNetwork: {
         readonly wyvernTokenTransferProxyContractAddress: "0x82d102457854c985221249f86659c9d6cf12aa72";
     };
 };
-/**
- * The longest time that an order is valid for is six months from the current date
- * @returns unix timestamp
- */
-export declare const getMaxOrderExpirationTimestamp: () => number;

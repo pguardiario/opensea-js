@@ -10,8 +10,6 @@ export declare class OpenSeaPort {
     logger: (arg: string) => void;
     readonly api: OpenSeaAPI;
     gasPriceAddition: BigNumber;
-    maxFeePerGas: BigNumber;
-    maxPriorityFeePerGas: BigNumber;
     gasIncreaseFactor: number;
     private _networkName;
     private _wyvernProtocol;
@@ -32,7 +30,7 @@ export declare class OpenSeaPort {
      * @param logger logger, optional, a function that will be called with debugging
      *  information
      */
-    constructor(provider: Web3["currentProvider"], apiConfig?: OpenSeaAPIConfig, logger?: (arg: string) => void);
+    constructor(provider: Web3.Provider, apiConfig?: OpenSeaAPIConfig, logger?: (arg: string) => void);
     private _getOrderCreateWyvernExchangeAddress;
     /**
      * Add a listener to a marketplace event
@@ -152,7 +150,7 @@ export declare class OpenSeaPort {
      * @param quantities The quantity of each asset to sell. Defaults to 1 for each.
      * @param accountAddress Address of the maker's wallet
      * @param startAmount Value of the offer, in units of the payment token (or wrapped ETH if no payment token address specified)
-     * @param expirationTime Expiration time for the order, in seconds.
+     * @param expirationTime Expiration time for the order, in seconds. An expiration time of 0 means "never expire"
      * @param paymentTokenAddress Optional address for using an ERC-20 token in the order. If unspecified, defaults to W-ETH
      * @param sellOrder Optional sell order (like an English auction) to ensure fee and schema compatibility
      * @param referrerAddress The optional address that referred the order
@@ -179,7 +177,7 @@ export declare class OpenSeaPort {
      * @param accountAddress Address of the maker's wallet
      * @param startAmount Value of the offer, in units of the payment token (or wrapped ETH if no payment token address specified)
      * @param quantity The number of assets to bid for (if fungible or semi-fungible). Defaults to 1. In units, not base units, e.g. not wei.
-     * @param expirationTime Expiration time for the order, in seconds.
+     * @param expirationTime Expiration time for the order, in seconds. An expiration time of 0 means "never expire"
      * @param paymentTokenAddress Optional address for using an ERC-20 token in the order. If unspecified, defaults to W-ETH
      * @param sellOrder Optional sell order (like an English auction) to ensure fee and schema compatibility
      * @param referrerAddress The optional address that referred the order
@@ -207,7 +205,7 @@ export declare class OpenSeaPort {
      * @param endAmount Optional price of the asset at the end of its expiration time. Units are in the amount of a token above the token's decimal places (integer part). For example, for ether, expected units are in ETH, not wei.
      * @param quantity The number of assets to sell (if fungible or semi-fungible). Defaults to 1. In units, not base units, e.g. not wei.
      * @param listingTime Optional time when the order will become fulfillable, in UTC seconds. Undefined means it will start now.
-     * @param expirationTime Expiration time for the order, in UTC seconds.
+     * @param expirationTime Expiration time for the order, in UTC seconds. An expiration time of 0 means "never expire."
      * @param waitForHighestBid If set to true, this becomes an English auction that increases in price for every bid. The highest bid wins when the auction expires, as long as it's at least `startAmount`. `expirationTime` must be > 0.
      * @param englishAuctionReservePrice Optional price level, below which orders may be placed but will not be matched.  Orders below the reserve can be manually accepted but will not be automatically matched.
      * @param paymentTokenAddress Address of the ERC-20 token to accept in return. If undefined or null, uses Ether.
@@ -242,7 +240,7 @@ export declare class OpenSeaPort {
      * @param endAmount Optional price of the asset at the end of its expiration time. If not specified, will be set to `startAmount`. Units are in the amount of a token above the token's decimal places (integer part). For example, for ether, expected units are in ETH, not wei.
      * @param quantity The number of assets to sell at one time (if fungible or semi-fungible). Defaults to 1. In units, not base units, e.g. not wei.
      * @param listingTime Optional time when the order will become fulfillable, in UTC seconds. Undefined means it will start now.
-     * @param expirationTime Expiration time for the order, in seconds.
+     * @param expirationTime Expiration time for the order, in seconds. An expiration time of 0 means "never expire."
      * @param waitForHighestBid If set to true, this becomes an English auction that increases in price for every bid. The highest bid wins when the auction expires, as long as it's at least `startAmount`. `expirationTime` must be > 0.
      * @param paymentTokenAddress Address of the ERC-20 token to accept in return. If undefined or null, uses Ether.
      * @param extraBountyBasisPoints Optional basis points (1/100th of a percent) to reward someone for referring the fulfillment of each order
@@ -281,7 +279,7 @@ export declare class OpenSeaPort {
      * @param startAmount Price of the asset at the start of the auction, or minimum acceptable bid if it's an English auction.
      * @param endAmount Optional price of the asset at the end of its expiration time. If not specified, will be set to `startAmount`.
      * @param listingTime Optional time when the order will become fulfillable, in UTC seconds. Undefined means it will start now.
-     * @param expirationTime Expiration time for the order, in seconds.
+     * @param expirationTime Expiration time for the order, in seconds. An expiration time of 0 means "never expire."
      * @param waitForHighestBid If set to true, this becomes an English auction that increases in price for every bid. The highest bid wins when the auction expires, as long as it's at least `startAmount`. `expirationTime` must be > 0.
      * @param englishAuctionReservePrice Optional price level, below which orders may be placed but will not be matched.  Orders below the reserve can be manually accepted but will not be automatically matched.
      * @param paymentTokenAddress Address of the ERC-20 token to accept in return. If undefined or null, uses Ether.
@@ -618,7 +616,7 @@ export declare class OpenSeaPort {
         quantity: number;
         accountAddress: string;
         startAmount: number;
-        expirationTime?: number;
+        expirationTime: number;
         paymentTokenAddress: string;
         extraBountyBasisPoints: number;
         sellOrder?: UnhashedOrder;
@@ -633,7 +631,7 @@ export declare class OpenSeaPort {
         waitForHighestBid: boolean;
         englishAuctionReservePrice?: number;
         listingTime?: number;
-        expirationTime?: number;
+        expirationTime: number;
         paymentTokenAddress: string;
         extraBountyBasisPoints: number;
         buyerAddress: string;
@@ -653,7 +651,7 @@ export declare class OpenSeaPort {
         quantities: number[];
         accountAddress: string;
         startAmount: number;
-        expirationTime?: number;
+        expirationTime: number;
         paymentTokenAddress: string;
         extraBountyBasisPoints: number;
         sellOrder?: UnhashedOrder;
@@ -672,7 +670,7 @@ export declare class OpenSeaPort {
         startAmount: number;
         endAmount?: number;
         listingTime?: number;
-        expirationTime?: number;
+        expirationTime: number;
         waitForHighestBid: boolean;
         englishAuctionReservePrice?: number;
         paymentTokenAddress: string;

@@ -1,5 +1,5 @@
 import BigNumber from "bignumber.js";
-import { AbiItem } from "web3-utils";
+import * as Web3 from "web3";
 import { ECSignature, HowToCall, Network, Order as WyvernOrder, WyvernProtocolConfig } from "wyvern-js/lib/types";
 import type { Token } from "wyvern-schemas/dist/types";
 export { HowToCall, Network };
@@ -511,4 +511,17 @@ export interface OrderbookResponse {
 }
 export declare type Web3Callback<T> = (err: Error | null, result: T) => void;
 export declare type TxnCallback = (result: boolean) => void;
-export declare type PartialReadonlyContractAbi = AbiItem[];
+/**
+ * To simplify typifying ABIs
+ */
+interface PartialAbiDefinition {
+    type: Web3.AbiType | string;
+    name?: string;
+    inputs?: object[];
+    outputs?: object[];
+    payable?: boolean;
+    constant?: boolean;
+    anonymous?: boolean;
+    stateMutability?: Web3.ConstructorStateMutability | string;
+}
+export declare type PartialReadonlyContractAbi = Array<Readonly<PartialAbiDefinition>>;
